@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: crypto-service-deploy
+   labels:
+      type: crypto-svc
+spec:
+  template:
+    metadata:
+      name: crypto-pod
+      labels:
+        type: crypto-svc
+    spec:
+      containers:
+      - name: crypto-service-image
+        image: ghcr.io/anasuya-zemo/crypto-service-bc98:latest
+        ports:
+        - containerPort: 9005
+        envFrom:
+          - secretRef: 
+              name: database-secret
+        env:
+          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            value: https://bc98be.bootcamp64.tk/eureka/
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://54.88.156.90:30001/minet 
+          - name: EUREKA_INSTANCE_HOSTNAME
+            value: crypto
+      imagePullSecrets: 
+      - name: ghcr-secret
+
+  replicas: 1
+  selector:
+    matchLabels:
+      type: crypto-svc

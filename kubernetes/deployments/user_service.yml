@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: user-service-deploy
+   labels:
+      type: user-svc
+spec:
+  template:
+    metadata:
+      name: user-pod
+      labels:
+        type: user-svc
+    spec:
+      containers:
+      - name: user-service-image
+        image: ghcr.io/anasuya-zemo/user-service-bc98:latest
+        ports:
+        - containerPort: 9007
+        envFrom:
+          - secretRef: 
+              name: database-secret
+        env:
+          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            value: https://bc98be.bootcamp64.tk/eureka/
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://54.88.156.90:30001/minet 
+          - name: EUREKA_INSTANCE_HOSTNAME
+            value: user
+      imagePullSecrets: 
+      - name: ghcr-secret
+
+  replicas: 1
+  selector:
+    matchLabels:
+      type: user-svc
