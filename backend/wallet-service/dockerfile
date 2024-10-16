@@ -1,7 +1,0 @@
-FROM openjdk:11
-
-COPY ./target/*.jar wallet-service.jar
-
-EXPOSE 9006
-
-CMD ["java", "-jar", "wallet-service.jar"]

@@ -1,7 +1,0 @@
-FROM openjdk:11
-
-COPY ./target/*.jar discovery-server.jar
-
-EXPOSE 8761
-
-CMD ["java", "-jar", "discovery-server.jar"]

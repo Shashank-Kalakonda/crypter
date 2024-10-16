@@ -1,7 +1,0 @@
-FROM openjdk:11
-
-COPY ./target/*.jar crypto-service.jar
-
-EXPOSE 9005
-
-CMD ["java", "-jar", "crypto-service.jar"]
